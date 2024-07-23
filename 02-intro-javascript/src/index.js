@@ -1,17 +1,14 @@
 
-const persona = {
-    nombre: 'Jeff',
-    apellido: 'Vivas',
-    edad: 29,
-    direccion:{
-        ciudad:'Barcelona',
-        zip:8028,
-    }
+//FUNCIONES
+//function saludar(nombre){
+//    return `hola, ${nombre}`;
+//};
 
-};
+//FUNCIONES DE FLECHA
+const saludar2 = (nombre) => {
+    return `Hola, ${nombre}`;
+}
 
-const persona2={...persona};
-persona2.nombre='Andres';
+const 
 
-console.log(persona);
-console.log(persona2);
+console.log(saludar2('Jeff'));
