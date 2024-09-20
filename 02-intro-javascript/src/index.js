@@ -1,14 +1,23 @@
+// import { heroes } from './data/heroes.js';
+//import { heroes } from ".data/heroes.js";
 
-//FUNCIONES
-//function saludar(nombre){
-//    return `hola, ${nombre}`;
-//};
+import { heroes } from "./data/heroes";
 
-//FUNCIONES DE FLECHA
-const saludar2 = (nombre) => {
-    return `Hola, ${nombre}`;
-}
+/* const getHeroesById = (id) => {
+    return heroes.find((heroe) => {
+        if ( heroe.id == id){
+        return true;
+    }
+    else{
+        return false;
+    }
+    });
+}; */
 
-const 
+const getHeroesById = (id) =>  heroes.find((heroe) => heroe.id == id)
 
-console.log(saludar2('Jeff'));
+console.log(getHeroesById(2));
+
+const getHeroesByOwner = (univers) => heroes.filter((heroe) => heroe.owner == univers);
+
+console.log(getHeroesByOwner('DC'));
