@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "02-tic-tac-toe": "file:",
-    "canvas-confetti": "1.9.3",
+    "canvas-confetti": "^1.9.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
