@@ -5,28 +5,35 @@ import {Square} from "./components/Square.jsx";
 
 import { turns } from "./constants.js";
 
-import { checkWinner } from "./logic/board.js";
+import { checkWinner, checkEndGame } from "./logic/board.js";
 
-const board = Array(9).fill(null)
+import { WinnerModal } from "./components/WinnerModal.jsx";
 
-
-
-
-
-
+import { saveGameStorage, resetEstorage } from "./logic/storage/index.js";
 
 function App() {
-  const [board, setBoard] = useState(
-    Array(9).fill(null)
-  )
+  const [board, setBoard] = useState(() =>{
+    const boardFromStorage = window.localStorage.getItem('board')
+    if (boardFromStorage) return JSON.parse(boardFromStorage)
+      return Array(9).fill(null)
+  })
 
-  const [turn, setTurn] = useState(turns.X)
+
+
+  const [turn, setTurn] = useState(() => {
+    const turnFromStorage = window.localStorage.getItem('turn')
+    return turnFromStorage ?? turns.X
+  })
+
   const [winner, setWinner] = useState(null)
 
   const resetGame = () => {
     setBoard(Array(9).fill(null))
     setTurn(turns.X)
     setWinner(null)
+
+    resetEstorage()
+
   }
 
   const updateBoard = (index) => {
@@ -38,9 +45,14 @@ function App() {
     const newBoard = [... board]
     newBoard[index] = turn
     setBoard(newBoard)
-
     
     setTurn(newTurn)
+
+    saveGameStorage({
+      board: newBoard,
+      turn: newTurn
+    }
+    )
 
     const newWinner = checkWinner(newBoard)
     if (newWinner) {
@@ -50,10 +62,6 @@ function App() {
     else if (checkEndGame(newBoard)){
       setWinner(false)
     }
-  }
-
-  const checkEndGame = (newBoard) => {
-    return newBoard.every((square) => square !==null)
   }
 
   return(
@@ -86,29 +94,7 @@ function App() {
         </Square>
       </section>
 
-      {
-        winner !== null &&(
-          <section className="winner">
-            <div className="text">
-              <h2>
-                {
-                  winner === false
-                    ? 'Empate'
-                    :'Ganó '
-                }
-              </h2>
-
-              <header className="win">
-                {winner && <Square>{winner}</Square>}
-              </header>
-
-              <footer>
-                <button onClick={resetGame}> Empezar de nuevo </button>
-              </footer>
-            </div>
-          </section>
-        )
-      }
+      <WinnerModal resetGame={resetGame} winner={winner}/>
 
     </main>
   )
